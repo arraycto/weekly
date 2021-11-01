@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hammer.weekly.dao.StudentMapper">
+    <select id="verifyInfo" resultType="java.lang.Integer">
+    SELECT count(*) FROM student where study_number = #{study_number} and password = #{password} ;
+  </select>
+
+    <select id="getId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select id from student where study_number =#{study_number};
+    </select>
+
+    <select id="getName" parameterType="java.lang.String" resultType="java.lang.String">
+        select name from student where study_number =#{study_number};
+    </select>
+
+    <update id="modifyPass">
+        update student set password = #{newPass,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER};
+    </update>
+
+    <select id="getStudent" resultType="com.hammer.weekly.entity.Student">
+        SELECT * FROM student ;
+    </select>
+
+    <insert id="addStudent" parameterType="com.hammer.weekly.entity.Student">
+        insert into student (name, study_number, password)
+    values (#{name,jdbcType=VARCHAR}, #{study_number,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deleteStudentById" parameterType="java.lang.Integer">
+        delete from student where id = #{id}
+    </delete>
+
+</mapper>

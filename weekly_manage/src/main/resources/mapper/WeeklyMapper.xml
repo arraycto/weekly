@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hammer.weekly.dao.WeeklyMapper">
+
+    <resultMap id="BaseResultMap" type="com.hammer.weekly.entity.Weekly" >
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="owner_name" property="owner_name" jdbcType="VARCHAR" />
+        <result column="owner_id" property="owner_id" jdbcType="INTEGER" />
+        <result column="study_progress" property="study_progress" jdbcType="VARCHAR" />
+        <result column="daily_progress" property="daily_progress" jdbcType="VARCHAR" />
+        <result column="total_time" property="total_time" jdbcType="INTEGER" />
+        <result column="time_allocation" property="time_allocation" jdbcType="VARCHAR" />
+        <result column="experience" property="experience" jdbcType="VARCHAR" />
+        <result column="post_time" property="post_time" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <select id="findWeeklyById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+
+        SELECT * FROM weekly where owner_id = #{id} order by post_time desc ;
+    </select>
+
+    <update id="updateWeekly" parameterType="com.hammer.weekly.entity.Weekly">
+        update weekly
+        <set >
+            <if test="study_progress != null" >
+                study_progress = #{study_progress,jdbcType=VARCHAR},
+            </if>
+            <if test="daily_progress != null" >
+                daily_progress = #{daily_progress,jdbcType=VARCHAR},
+            </if>
+            <if test="total_time != null" >
+                total_time = #{total_time,jdbcType=INTEGER},
+            </if>
+            <if test="time_allocation != null" >
+                time_allocation = #{time_allocation,jdbcType=VARCHAR},
+            </if>
+            <if test="experience != null" >
+                experience = #{experience,jdbcType=VARCHAR},
+            </if>
+            <if test="post_time != null" >
+                post_time = #{post_time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <insert id="postWeekly" parameterType="com.hammer.weekly.entity.Weekly">
+        insert into weekly (owner_id,owner_name, study_progress, daily_progress,
+       total_time,time_allocation, experience, post_time)
+    values (#{owner_id,jdbcType=INTEGER},#{owner_name,jdbcType=VARCHAR}, #{study_progress,jdbcType=VARCHAR}, #{daily_progress,jdbcType=VARCHAR},
+      #{total_time,jdbcType=INTEGER},#{time_allocation,jdbcType=VARCHAR},  #{experience,jdbcType=VARCHAR},#{post_time,jdbcType=TIMESTAMP})
+    </insert>
+
+    <select id="findTwoWeeksWeekly" resultMap="BaseResultMap">
+        SELECT * FROM weekly where datediff(post_time,curdate()) &lt;14 order by post_time desc ;
+    </select>
+
+    <update id="updateJudgementById">
+        update weekly set comment =#{comment},judge_time=#{judge_time} where id =#{id}
+    </update>
+
+</mapper>

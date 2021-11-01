@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hammer.weekly.dao.UserFileMapper">
+    <insert id="save" parameterType="com.hammer.weekly.entity.UserFile">
+        insert into file (owner_id,owner_name,old_name, new_name, ext,
+               size,type, path,post_time)
+            values (#{owner_id,jdbcType=INTEGER},#{owner_name,jdbcType=VARCHAR},#{old_name,jdbcType=VARCHAR}, #{new_name,jdbcType=VARCHAR}, #{ext,jdbcType=VARCHAR},
+              #{size,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{post_time,jdbcType=TIMESTAMP})
+    </insert>
+
+    <select id="getFile" resultType="com.hammer.weekly.entity.UserFile">
+        select * from file;
+    </select>
+
+    <select id="findFileById" parameterType="java.lang.Integer" resultType="com.hammer.weekly.entity.UserFile">
+        select * from file where id = #{id};
+    </select>
+</mapper>

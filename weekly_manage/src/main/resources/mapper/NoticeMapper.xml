@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hammer.weekly.dao.NoticeMapper">
+
+
+    <select id="getNotice" resultType="com.hammer.weekly.entity.Notice">
+        /*倒序查询，使得最新发布的通知公告在第一个*/
+        SELECT * FROM notice order by id desc;
+    </select>
+
+    <insert id="postNotice" parameterType="com.hammer.weekly.entity.Notice">
+        insert into notice (title, content)
+    values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deleteNoticeById" parameterType="java.lang.Integer">
+        delete from notice where id = #{id}
+    </delete>
+
+
+</mapper>
